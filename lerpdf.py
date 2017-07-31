@@ -2,7 +2,7 @@
 import subprocess
 def lerpdf(pdffile):
   #Executa um programa e retorna o stdout
-  proc = subprocess.Popen(["python", "pdf2txt.pyc", pdffile], stdout=subprocess.PIPE)
+  proc = subprocess.Popen(["python", "pdf2txt.py", pdffile], stdout=subprocess.PIPE)
   #Iniciei o array
   linhas = []
   #Enquanto nao e o final do arquivo, cada linha e adicionada no array linhas
