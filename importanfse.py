@@ -1,8 +1,12 @@
 #encoding: utf-8
 import lerpdf, codecs
-def importapdf(arquivo):
+def importanfse(arquivo):
     #Iniciando variaveis
     vencimento = ""
+    competencia = ""
+    nota = ""
+    inscfederal = ""
+    emissor = "" 
     nomenota = ""
     #Envia o caminho do arquivo para a funcao lerpdf e salva na variavel line
     line = lerpdf.lerpdf(arquivo)
