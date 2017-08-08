@@ -1,9 +1,11 @@
 #encoding: utf-8
 import glob, os, lercsv
 from lercsv import lercsv
-from importanfse import importanfse
+from importapdf import importapdf
+
+from importapdf import importapdf
 #Funcao para ler os arquivos. Recebe a pasta onde os arquivos estao
-def renomeiapdf( pathPdf, tipoarquivo):
+def renomeiapdf( pathPdf ):
     #Caminho para os arquivos, limitados a PDF
     notas = pathPdf + "*.pdf"
     #Joga todos os nomes de arquivos no objeto arquivos
@@ -13,7 +15,7 @@ def renomeiapdf( pathPdf, tipoarquivo):
     counter = len(listaclientes)
     #Percorres todos os arquivos e chama a funcao que renomia para pdf
     for arquivo in arquivos:
-        inscfederal, nota, nomenota = tipoarquivo(arquivo.strip())
+        inscfederal, nota, nomenota = importapdf(arquivo.strip())
         #print inscfederal, nota, nomenota
         for linha in range (counter):
             if listaclientes[linha][1] == inscfederal:

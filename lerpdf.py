@@ -1,5 +1,7 @@
 #encoding: utf-8
 import subprocess
+
+
 def lerpdf(pdffile):
   #Executa um programa e retorna o stdout
   proc = subprocess.Popen(["python", "pdf2txt.py", pdffile], stdout=subprocess.PIPE)
