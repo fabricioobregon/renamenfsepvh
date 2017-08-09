@@ -17,7 +17,7 @@ def renomeiapdf( pathPdf ):
     for arquivo in arquivos:
         inscfederal, nota, nomenota = importapdf(arquivo.strip())
         #print inscfederal, nota, nomenota
-        for linha in range (counter):
+        for linha in range(counter):
             if listaclientes[linha][1] == inscfederal:
                 inscfederal = listaclientes[linha][0]
         nomearquivo = inscfederal + nomenota

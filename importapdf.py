@@ -1,15 +1,22 @@
 # encoding: utf-8
 from lerpdf import lerpdf
 
-
 def importapdf(arquivo):
-
     # Envia o caminho do arquivo para a funcao lerpdf e salva na variavel arquivoaberto
-    arquivoaberto = lerpdf(arquivo)
-    if str(arquivoaberto[0]).strip() == "Prefeitura do Município de Porto Velho":
-        inscfederal, nota, nomenota = nfse(arquivoaberto)
-    elif str(arquivoaberto[0]).strip() == "033-7":
-        inscfederal, nota, nomenota = boleto(arquivoaberto)
+    try:
+        arquivoaberto = lerpdf(arquivo)
+        if str(arquivoaberto[0]).strip() == "Prefeitura do Município de Porto Velho":
+            inscfederal, nota, nomenota = nfse(arquivoaberto)
+        elif (str(arquivoaberto[0]).strip() == "033-7") or (str(arquivoaberto[0]).strip() == "Cedente"):
+            inscfederal, nota, nomenota = boleto(arquivoaberto)
+        else:
+            inscfederal = "Arquivo PDF nao suportado" + arquivo.replace("/","")
+            nota = ""
+            nomenota = ""
+    except:
+        inscfederal = "Arquivo PDF com erro" + arquivo.replace("/","")
+        nota = ""
+        nomenota = ""
     return inscfederal, nota, nomenota
 
 def nfse(arquivoaberto):
@@ -56,18 +63,21 @@ def boleto(arquivoaberto):
             vencimento = dia
             if int(dia) > 25:
                 competencia = mes+ano
+            elif int(mes) < 2:
+                competencia = str(int(mes) + 11) + str(int(ano) - 1)
             elif int(mes) < 11:
                 competencia = "0" + str(int(mes)-1) + ano
             else:
                 competencia = str(int(mes)-1) + ano
-            if str(arquivoaberto[linha - 7]).strip() == "D. DUWE CONTABILIDADE LTDA.":
-                emissor = "9119"
-            else:
-                emissor = ""
+        if str(arquivoaberto[linha]).strip() == "D. DUWE CONTABILIDADE LTDA.":
+            emissor = "9119"
         if str(arquivoaberto[linha]).strip() == "Sacado:":
-            busca = str(arquivoaberto[linha + 2]).split()
-            inscfederal = busca[busca.index("CNPJ/CPF:")+1]
-            inscfederal = inscfederal.replace("/","").replace(".","").replace("-","")
+            try:
+                busca = str(arquivoaberto[linha + 2]).split()
+                inscfederal = busca[busca.index("CNPJ/CPF:")+1]
+                inscfederal = inscfederal.replace("/","").replace(".","").replace("-","")
+            except:
+                inscfederal = "Sem inscricao"
     # Testa o emissor para formar o nome do arquivo
     if emissor == "9119":
         nomenota = "-BLT" + vencimento + "-" + competencia + ".pdf"
