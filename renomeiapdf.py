@@ -23,5 +23,5 @@ def renomeiapdf( pathPdf ):
         nomearquivo = inscfederal + nomenota
         print nomearquivo
         #Renomeia os arquivos de acordo com os dados lidos
-        #os.rename(i ,pathPdf + nomearquivo)
+        os.rename(arquivo ,pathPdf + nomearquivo)
     return

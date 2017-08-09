@@ -1,8 +1,17 @@
 from renomeiapdf import renomeiapdf
 from importapdf import importapdf
 import sys
-#Path = sys.argv[1]
+Path = sys.argv[1]
+renomeiapdf(Path)
 
+
+
+
+
+
+
+
+'''
 def zero():
     renomeiapdf(Path, importapdf)
     return "zero"
@@ -23,4 +32,4 @@ def numbers_to_functions_to_strings(argument):
 #if sys.argv[2] == 'nfse':
 #    renomeiapdf(Path, importanfse)"
 #numbers_to_functions_to_strings(sys.argv[2])
-renomeiapdf('Notas2/')
+'''
