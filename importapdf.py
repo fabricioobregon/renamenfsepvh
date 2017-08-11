@@ -12,7 +12,6 @@ def importapdf(arquivo):
     except:
         return 0
     return inscfederal, nota, nomenota
-
 def nfse(arquivoaberto):
     # Iniciando variaveis
     vencimento = ""

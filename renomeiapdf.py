@@ -1,7 +1,6 @@
 #encoding: utf-8
 import glob, os, lercsv
 from lercsv import lercsv
-from importapdf import importapdf
 
 from importapdf import importapdf
 #Funcao para ler os arquivos. Recebe a pasta onde os arquivos estao
