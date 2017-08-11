@@ -9,14 +9,8 @@ def importapdf(arquivo):
             inscfederal, nota, nomenota = nfse(arquivoaberto)
         elif (str(arquivoaberto[0]).strip() == "033-7") or (str(arquivoaberto[0]).strip() == "Cedente"):
             inscfederal, nota, nomenota = boleto(arquivoaberto)
-        else:
-            inscfederal = "Arquivo PDF nao suportado" + arquivo.replace("/","")
-            nota = ""
-            nomenota = ""
     except:
-        inscfederal = "Arquivo PDF com erro" + arquivo.replace("/","")
-        nota = ""
-        nomenota = ""
+        return 0
     return inscfederal, nota, nomenota
 
 def nfse(arquivoaberto):

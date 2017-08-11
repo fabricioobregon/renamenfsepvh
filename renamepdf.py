@@ -1,35 +1,14 @@
 from renomeiapdf import renomeiapdf
+from Tkinter import Tk
+from tkFileDialog import askdirectory
+
+Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+folder = askdirectory() # show an "Open" dialog box and return the path to the selected file
+renomeiapdf(folder+"/")
+'''
+from renomeiapdf import renomeiapdf
 from importapdf import importapdf
 import sys
 Path = sys.argv[1]
 renomeiapdf(Path)
-
-
-
-
-
-
-
-
-'''
-def zero():
-    renomeiapdf(Path, importapdf)
-    return "zero"
-
-def one():
-    return "one"
-
-def numbers_to_functions_to_strings(argument):
-    switcher = {
-        0: zero,
-        1: one,
-        2: lambda: "two",
-    }
-    # Get the function from switcher dictionary
-    func = switcher.get(argument, lambda: "nothing")
-    # Execute the function
-    return func()
-#if sys.argv[2] == 'nfse':
-#    renomeiapdf(Path, importanfse)"
-#numbers_to_functions_to_strings(sys.argv[2])
 '''

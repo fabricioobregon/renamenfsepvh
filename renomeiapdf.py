@@ -5,7 +5,7 @@ from importapdf import importapdf
 
 from importapdf import importapdf
 #Funcao para ler os arquivos. Recebe a pasta onde os arquivos estao
-def renomeiapdf( pathPdf ):
+def renomeiapdf(pathPdf):
     #Caminho para os arquivos, limitados a PDF
     notas = pathPdf + "*.pdf"
     #Joga todos os nomes de arquivos no objeto arquivos
@@ -15,13 +15,15 @@ def renomeiapdf( pathPdf ):
     counter = len(listaclientes)
     #Percorres todos os arquivos e chama a funcao que renomia para pdf
     for arquivo in arquivos:
-        inscfederal, nota, nomenota = importapdf(arquivo.strip())
-        #print inscfederal, nota, nomenota
-        for linha in range(counter):
-            if listaclientes[linha][1] == inscfederal:
-                inscfederal = listaclientes[linha][0]
-        nomearquivo = inscfederal + nomenota
-        print nomearquivo
-        #Renomeia os arquivos de acordo com os dados lidos
-        os.rename(arquivo ,pathPdf + nomearquivo)
+        try:
+            inscfederal, nota, nomenota = importapdf(arquivo.strip())
+            #print inscfederal, nota, nomenota
+            for linha in range(counter):
+                if listaclientes[linha][1] == inscfederal:
+                    inscfederal = listaclientes[linha][0]
+            nomearquivo = inscfederal + nomenota
+            # Renomeia os arquivos de acordo com os dados lidos
+            os.rename(arquivo, pathPdf + nomearquivo)
+        except:
+            pass
     return
