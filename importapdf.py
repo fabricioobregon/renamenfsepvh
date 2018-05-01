@@ -56,7 +56,7 @@ def boleto(arquivoaberto):
     contador = len(arquivoaberto)
     # Procura os dados nas possiveis linhas do campo e salva nas variaveis
     for linha in range(contador):
-        if str(arquivoaberto[linha]).strip() == "Recebi(emos) o boleto":
+        if str(arquivoaberto[linha]).strip() == "Agência / Ident.Cedente":
             dia,mes,ano = str(arquivoaberto[linha - 1]).split("/")
             vencimento = dia
             if int(dia) > 25:
@@ -69,7 +69,7 @@ def boleto(arquivoaberto):
                 competencia = str(int(mes)-1) + ano
         if str(arquivoaberto[linha]).strip() == "D. DUWE CONTABILIDADE LTDA.":
             emissor = "9119"
-        if str(arquivoaberto[linha]).strip() == "Sacado:":
+        if str(arquivoaberto[linha]).strip() == "(=) Valor Cobrado":
             try:
                 busca = str(arquivoaberto[linha + 2]).split()
                 inscfederal = busca[busca.index("CNPJ/CPF:")+1]
