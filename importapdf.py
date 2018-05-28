@@ -3,7 +3,7 @@ from lerpdf import lerpdf
 
 
 def importapdf(arquivo):
-    inscfederal =""
+    inscfederal = ""
     nota = ""
     nomenota = ""
     # Envia o caminho do arquivo para a funcao lerpdf e salva na variavel arquivoaberto
@@ -13,9 +13,12 @@ def importapdf(arquivo):
             inscfederal, nota, nomenota = nfse(arquivoaberto)
         elif (str(arquivoaberto[0]).strip() == "033-7") or (str(arquivoaberto[0]).strip() == "Cedente"):
             inscfederal, nota, nomenota = boleto(arquivoaberto)
+        elif(str(arquivoaberto[0]).strip() == "Beneficiário"):
+            inscfederal, nota, nomenota = boletoSicoob(arquivoaberto)
     except:
         return 0
     return inscfederal, nota, nomenota
+
 
 def nfse(arquivoaberto):
     # Iniciando variaveis
@@ -45,6 +48,7 @@ def nfse(arquivoaberto):
         nomenota = "-ENFS" + vencimento + "-" + competencia
     return inscfederal, nota, nomenota
 
+
 def boleto(arquivoaberto):
     # Iniciando variaveis
     vencimento = ""
@@ -57,23 +61,61 @@ def boleto(arquivoaberto):
     # Procura os dados nas possiveis linhas do campo e salva nas variaveis
     for linha in range(contador):
         if str(arquivoaberto[linha]).strip() == "Agência / Ident.Cedente":
-            dia,mes,ano = str(arquivoaberto[linha - 1]).split("/")
+            dia, mes, ano = str(arquivoaberto[linha - 1]).split("/")
             vencimento = dia
             if int(dia) > 25:
-                competencia = mes+ano
+                competencia = mes + ano
             elif int(mes) < 2:
                 competencia = str(int(mes) + 11) + str(int(ano) - 1)
             elif int(mes) < 11:
-                competencia = "0" + str(int(mes)-1) + ano
+                competencia = "0" + str(int(mes) - 1) + ano
             else:
-                competencia = str(int(mes)-1) + ano
+                competencia = str(int(mes) - 1) + ano
         if str(arquivoaberto[linha]).strip() == "D. DUWE CONTABILIDADE LTDA.":
             emissor = "9119"
         if str(arquivoaberto[linha]).strip() == "(=) Valor Cobrado":
             try:
                 busca = str(arquivoaberto[linha + 2]).split()
-                inscfederal = busca[busca.index("CNPJ/CPF:")+1]
-                inscfederal = inscfederal.replace("/","").replace(".","").replace("-","")
+                inscfederal = busca[busca.index("CNPJ/CPF:") + 1]
+                inscfederal = inscfederal.replace("/", "").replace(".", "").replace("-", "")
+            except:
+                inscfederal = "Sem inscricao"
+    # Testa o emissor para formar o nome do arquivo
+    if emissor == "9119":
+        nomenota = "-BLT" + vencimento + "-" + competencia
+    else:
+        nomenota = "-EBLT" + vencimento + "-" + competencia
+    return inscfederal, nota, nomenota
+
+
+def boletoSicoob(arquivoaberto):
+    # Iniciando variaveis
+    vencimento = ""
+    competencia = ""
+    nota = ""
+    inscfederal = ""
+    emissor = ""
+    # Conta a quantidade de linhas do arquivo
+    contador = len(arquivoaberto)
+    # Procura os dados nas possiveis linhas do campo e salva nas variaveis
+    for linha in range(contador):
+        if str(arquivoaberto[linha]).strip() == "Cooperativa contratante/Cód. Beneficiário":
+            dia, mes, ano = str(arquivoaberto[linha + 2]).split("/")
+            vencimento = dia
+            if int(dia) > 25:
+                competencia = mes + ano
+            elif int(mes) < 2:
+                competencia = str(int(mes) + 11) + str(int(ano) - 1)
+            elif int(mes) < 11:
+                competencia = "0" + str(int(mes) - 1) + ano
+            else:
+                competencia = str(int(mes) - 1) + ano
+        if str(arquivoaberto[linha]).strip() == "D.DUWE CONTABILIDADE S/S - EPP":
+            emissor = "9119"
+        if str(arquivoaberto[linha]).strip() == "Sacador / Avalista":
+            try:
+                inscfederal = str(arquivoaberto[linha + 2])
+                inscfederal = inscfederal.replace("/", "").replace(".", "").replace("-", "")
             except:
                 inscfederal = "Sem inscricao"
     # Testa o emissor para formar o nome do arquivo
